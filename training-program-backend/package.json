@@ -1,0 +1,60 @@
+{
+  "name": "training-program-backend",
+  "version": "1.0.0",
+  "description": "Backend for Training program",
+  "main": "src/index.js",
+  "private": true,
+  "standard": {
+    "parser": "babel-eslint",
+    "env": [
+      "jest"
+    ]
+  },
+  "scripts": {
+    "test": "npm run lint",
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "dev": "nodemon -e js,graphql -w src --config .nodemon.json --exec \"babel-node src\"",
+    "smart_install": "sh smart_install.sh",
+    "dev:smart:with-migrations": "npm run smart_install && npx sequelize db:migrate && npm run dev",
+    "build": "npm run cleanup && babel src -D -d dist",
+    "start": "npx sequelize db:migrate && node dist/index.js",
+    "cleanup": "rm -rf dist"
+  },
+  "keywords": [
+    "Node.js",
+    "GraphQL"
+  ],
+  "author": "WeDevelop <info@wedevelop.me>",
+  "license": "MIT",
+  "dependencies": {
+    "@graphql-tools/schema": "^7.1.2",
+    "apollo-server-express": "^2.19.0",
+    "body-parser": "^1.19.0",
+    "cls-hooked": "^4.2.2",
+    "cors": "^2.8.5",
+    "dayjs": "^1.9.6",
+    "express": "^4.16.4",
+    "globby": "^11.0.1",
+    "graphql": "^15.4.0",
+    "graphql-resolvers": "^0.4.2",
+    "graphql-tag": "^2.11.0",
+    "lodash": "^4.17.15",
+    "nodemon": "^2.0.6",
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.9",
+    "@babel/node": "^7.12.6",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-proposal-optional-chaining": "^7.12.7",
+    "@babel/preset-env": "^7.12.7",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-root-import": "^6.6.0",
+    "standard": "^16.0.3"
+  }
+}

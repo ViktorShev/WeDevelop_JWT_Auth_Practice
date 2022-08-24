@@ -1,0 +1,10 @@
+# This is an empty type, meant to be extended by other entities.
+type Mutation {
+  _empty: String
+}
+
+interface MutationResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+}
