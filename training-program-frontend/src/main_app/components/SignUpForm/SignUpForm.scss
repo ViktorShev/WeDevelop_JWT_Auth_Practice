@@ -1,0 +1,45 @@
+.signUpForm {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: center;
+  row-gap: 25px;
+
+  h2 {
+    opacity: 75%;
+    font-weight: 400;
+    font-size: 32px;
+    align-self: center;
+    margin-bottom: 50px;
+  }
+
+  input {
+    height: 35px;
+    opacity: 50%;
+    min-width: 25%;
+  }
+
+  #submitRegistrationButton {
+    height: 45px;
+    opacity: 100%;
+    border: none;
+    border-radius: 4px;
+    background-color: rgb(0, 195, 255);
+    color: white;
+    font-size: 16px;
+    font-weight: normal; 
+    }
+
+  #submitRegistrationButton:hover {
+    cursor: pointer;
+  }
+}
+
+a {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  margin-top: 45px;
+  color: rgb(56, 56, 56);
+  font-size: 18px;
+  opacity: 95%;
+}
