@@ -3,6 +3,9 @@ import { useQuery } from '@apollo/client'
 
 import client from 'services/graphql/client'
 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SignUpForm from './components/SignUpForm/SignUpForm';
+
 const exampleQuery = loader('./graphql/currentUser.graphql')
 
 function App () {
@@ -11,7 +14,12 @@ function App () {
   console.log(loading, error, data)
 
   return (
-    <h1>Hello world!</h1>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/auth/signup' element={<SignUpForm />}/>
+        <Route path='/auth/signin' element={<SignInForm />}/>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
