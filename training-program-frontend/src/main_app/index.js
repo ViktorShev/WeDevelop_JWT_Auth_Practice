@@ -1,26 +1,30 @@
 import { loader } from 'graphql.macro'
-import { useQuery } from '@apollo/client'
+import { ApolloProvider, useQuery } from '@apollo/client'
 
 import client from 'services/graphql/client'
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUpForm from './components/SignUpForm/SignUpForm';
 import SignInForm from './components/SignInForm/SignInForm';
+import Homepage from './pages/Homepage';
 
-const exampleQuery = loader('./graphql/currentUser.graphql')
+const currentUserQuery = loader('./graphql/currentUser.graphql')
 
 function App () {
-  const { loading, error, data } = useQuery(exampleQuery, { client })
+  const { loading, error, data } = useQuery(currentUserQuery, { client })
 
   console.log(loading, error, data)
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/auth/signup' element={<SignUpForm />}/>
-        <Route path='/auth/signin' element={<SignInForm />}/>
-      </Routes>
-    </BrowserRouter>
+    <ApolloProvider client={client}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Homepage />}/>
+          <Route path='/auth/signup' element={<SignUpForm />}/>
+          <Route path='/auth/signin' element={<SignInForm />}/>
+        </Routes>
+      </BrowserRouter>
+    </ApolloProvider>
   )
 }
 
