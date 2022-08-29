@@ -1,0 +1,7 @@
+mutation signin($SigninInput: SigninInput!) {
+  signin(data: $SigninInput) {
+    user {
+      username
+    }
+  }
+}
