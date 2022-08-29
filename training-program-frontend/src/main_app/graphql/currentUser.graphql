@@ -1,6 +1,7 @@
 {
   currentUser {
-    id
-    firstName
+    user {
+      username
+    }
   }
 }

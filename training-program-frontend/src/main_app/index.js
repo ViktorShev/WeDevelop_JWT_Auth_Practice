@@ -1,6 +1,5 @@
 import { loader } from 'graphql.macro'
 import { ApolloProvider, useQuery } from '@apollo/client'
-
 import client from 'services/graphql/client'
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -19,7 +18,7 @@ function App () {
     <ApolloProvider client={client}>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Homepage />}/>
+          <Route path='/' element={<Homepage greetingName='Stranger'/>}/>
           <Route path='/auth/signup' element={<SignUpForm />}/>
           <Route path='/auth/signin' element={<SignInForm />}/>
         </Routes>

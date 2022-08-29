@@ -33,4 +33,19 @@
     cursor: pointer;
     background-color: rgb(0, 183, 255);
   }
+
+  .errorMessage {
+    display: none;
+  }
+
+  .errorMessage.--show {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(255, 183, 183);
+    border-radius: 5px;
+    color: red;
+    padding: 10px;
+    opacity: 70%;
+  }
 }
