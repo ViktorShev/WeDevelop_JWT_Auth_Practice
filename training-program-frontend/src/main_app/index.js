@@ -5,7 +5,7 @@ import client from 'services/graphql/client'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUpForm from './components/SignUpForm/SignUpForm';
 import SignInForm from './components/SignInForm/SignInForm';
-import Homepage from './pages/Homepage';
+import Homepage from './pages/Homepage/Homepage';
 
 const currentUserQuery = loader('./graphql/currentUser.graphql')
 
