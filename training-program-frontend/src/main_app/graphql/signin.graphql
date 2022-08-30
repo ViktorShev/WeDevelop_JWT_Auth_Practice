@@ -3,5 +3,7 @@ mutation signin($SigninInput: SigninInput!) {
     user {
       username
     }
+    jwt
+    authError
   }
 }

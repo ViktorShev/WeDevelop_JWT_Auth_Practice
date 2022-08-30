@@ -1,7 +1,5 @@
-{
+query currentUser {
   currentUser {
-    user {
-      username
-    }
+    username
   }
 }

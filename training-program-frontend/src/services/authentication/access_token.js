@@ -1,9 +1,7 @@
-let accessToken_ = null
-
 export function setAccessToken (accessToken) {
-  accessToken_ = accessToken
+  localStorage.setItem('token', accessToken)
 }
 
-export default getAccessToken () {
-  return accessToken_
+export function getAccessToken () {
+  return localStorage.getItem('token')
 }

@@ -5,7 +5,7 @@ export default (req, res, next) => {
   const authorizationHeaderValue = getRequestHeader('Authorization')
 
   // TODO: extract the token from the Authorization header value
-  const token = ''
+  const token = authorizationHeaderValue.replace('Bearer ', '')
 
   setAccessToken(token)
   next()

@@ -4,12 +4,24 @@ import classNames from 'classnames'
 import { loader } from 'graphql.macro'
 import { useMutation } from '@apollo/client'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { setAccessToken } from 'services/authentication/access_token'
 
 
 const LOGIN_USER_MUTATION = loader('../../graphql/signin.graphql')
 
 export default function SignInForm(_) {
-  const [loginUser, { error }] = useMutation(LOGIN_USER_MUTATION, { onError: console.log })
+  const navigate = useNavigate()
+  const [loginUser, { error }] = useMutation(
+    LOGIN_USER_MUTATION,
+    {
+      onError: console.log,
+      onCompleted: (data) => {
+        setAccessToken(data.signin.jwt)
+        navigate('/userinfo')
+      }
+    }
+  )
   const [formState, setFormState] = useState({
     username: undefined,
     password: undefined
@@ -20,10 +32,9 @@ export default function SignInForm(_) {
 
   return (
     <>
-      <form className='signInForm' onSubmit={async (e) => {
+      <form className='signInForm' onSubmit={(e) => {
         e.preventDefault();
-        await loginUser({ variables: { SigninInput: formState } })
-        setFormState({username: undefined, password: undefined})
+        loginUser({ variables: { SigninInput: formState } })
         e.target.reset()
       }}>
         <h2>Member login</h2>
