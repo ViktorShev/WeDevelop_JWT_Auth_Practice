@@ -27,7 +27,7 @@ export default function SignInForm(_) {
         e.target.reset()
       }}>
         <h2>Member login</h2>
-        <span className={showError}>Oh snap! Something went wrong. <img alt='x' src={erorr_cross}/></span>
+        <span className={showError}>Oh snap! Something went wrong.<img alt='x' src={erorr_cross}/></span>
         <input placeholder='Username' autoComplete='on' id='usernameInputField' onChange={ (e) => { setAttr('username', e) } }/>
         <input placeholder='Password' type='password' id='passwordInputField' onChange={ (e) => { setAttr('password', e) } }/>
         <input type='submit' id='submitLoginButton'/>
