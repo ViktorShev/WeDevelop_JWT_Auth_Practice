@@ -7,7 +7,7 @@ export default {
   Mutation: {
     signup: async (obj, { data }, context, info) => {
       try {
-        const user = await models.user.create(data.data)
+        const user = await models.user.create(data)
 
       return {
         user: user,
@@ -15,11 +15,7 @@ export default {
         authError: null,
       }
     } catch (err) {
-      return {
-        user: null,
-        jwt: null,
-        authError: null
-      }
+      new Error('USER_CREATE_FAIL')
     }
     },
 
@@ -55,9 +51,9 @@ export default {
         }
       }
       
-      return {
-        user: null
-      }
+      return (
+        null
+      )
     }
   }
 }

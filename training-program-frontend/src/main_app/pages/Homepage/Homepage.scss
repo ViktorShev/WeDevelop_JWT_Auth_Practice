@@ -9,26 +9,35 @@
     font-weight: normal;
   }
 
-  .navigation {
-    display: flex;
-    justify-content: space-around;
-    column-gap: 10px;
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 10px
+  }
 
-    button {
-      height: 45px;
-      opacity: 100%;
-      border: none;
-      border-radius: 4px;
-      background-color: rgb(0, 195, 255);
-      color: white;
-      font-size: 16px;
-      font-weight: normal;
-      padding: 10px
-    }
+  .signupButton.--disabled, .signinButton.--disabled {
+    background-color: lightgray;
+    pointer-events: none;
+  }
 
-    button:hover {
-      cursor: pointer;
-      background-color: rgb(0, 183, 255);
-    }
+  .goToInfoButton {
+    grid-row: 2;
+    grid-column: span 2;
+  }
+
+  .goToInfoButton.--disabled {
+    background-color: lightgray;
+    pointer-events: none;
+  }
+
+  .logout {
+    grid-row: 3;
+    grid-column: span 2;
+  }
+
+  .logout.--disabled {
+    background-color: lightgray;
+    pointer-events: none;
   }
 }
