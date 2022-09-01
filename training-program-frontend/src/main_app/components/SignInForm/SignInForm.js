@@ -1,10 +1,11 @@
-import './SignInForm.scss'
-import error_cross from '../../img/error_cross.png'
 import classNames from 'classnames'
 import { loader } from 'graphql.macro'
 import { useMutation } from '@apollo/client'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import './SignInForm.scss'
+import error_cross from '../../img/error_cross.png'
 import { setAccessToken } from 'services/authentication/access_token'
 
 

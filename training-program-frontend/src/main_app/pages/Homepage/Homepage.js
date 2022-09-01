@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+
 import { logout, reloadPage } from 'main_app/utils/logout_user'
 import './Homepage.scss'
 import { useCurrentUser } from 'main_app/hooks/useCurrentUser'
@@ -9,7 +10,7 @@ function Homepage(props) {
   const { 
     greetingName, 
   } = props
-  
+
   const { 
     isLoggedIn 
   } = useCurrentUser()
