@@ -9,7 +9,7 @@
     font-weight: 400;
     font-size: 32px;
     align-self: center;
-    margin-bottom: 50px;
+    margin-bottom: 5px;
   }
 
   input {
@@ -18,7 +18,7 @@
     min-width: 25%;
   }
 
-  #submitRegistrationButton {
+  input[type=submit] {
     height: 45px;
     opacity: 100%;
     border: none;
@@ -27,19 +27,28 @@
     color: white;
     font-size: 16px;
     font-weight: normal; 
-    }
-
-  #submitRegistrationButton:hover {
-    cursor: pointer;
   }
-}
+    
+  input[type=submit]:hover {
+    cursor: pointer;
+    background-color: rgb(0, 183, 255);
+  }
 
-a {
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
-  margin-top: 45px;
-  color: rgb(56, 56, 56);
-  font-size: 18px;
-  opacity: 95%;
+  .errorMessage {
+    visibility: hidden;
+    opacity: 0%;
+  }
+
+  .errorMessage.--show {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(255, 183, 183);
+    border-radius: 5px;
+    color: red;
+    padding: 10px;
+    opacity: 70%;
+    visibility: visible;
+    transition: all 300ms;
+  }
 }

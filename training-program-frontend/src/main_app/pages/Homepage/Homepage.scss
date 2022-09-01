@@ -1,0 +1,43 @@
+.greeting {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: center;
+  justify-content: center;
+  height: 300px;
+  
+  h1 {
+    font-weight: normal;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 10px
+  }
+
+  .signupButton.--disabled, .signinButton.--disabled {
+    background-color: lightgray;
+    pointer-events: none;
+  }
+
+  .goToInfoButton {
+    grid-row: 2;
+    grid-column: span 2;
+  }
+
+  .goToInfoButton.--disabled {
+    background-color: lightgray;
+    pointer-events: none;
+  }
+
+  .logout {
+    grid-row: 3;
+    grid-column: span 2;
+  }
+
+  .logout.--disabled {
+    background-color: lightgray;
+    pointer-events: none;
+  }
+}

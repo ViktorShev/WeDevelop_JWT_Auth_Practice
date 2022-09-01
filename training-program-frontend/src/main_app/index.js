@@ -1,26 +1,42 @@
-import { loader } from 'graphql.macro'
-import { useQuery } from '@apollo/client'
-
-import client from 'services/graphql/client'
-
+import { ApolloProvider } from '@apollo/client'
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useCurrentUser } from './hooks/useCurrentUser';
+
+import client from 'services/graphql/client';
 import SignUpForm from './components/SignUpForm/SignUpForm';
 import SignInForm from './components/SignInForm/SignInForm';
+import UserInfo from './pages/UserInfo/UserInfo'
+import Homepage from './pages/Homepage/Homepage';
 
-const exampleQuery = loader('./graphql/currentUser.graphql')
 
 function App () {
-  const { loading, error, data } = useQuery(exampleQuery, { client })
+  const { userInfo, loading } = useCurrentUser()
+  const [greetingName, setGreetingName] = useState('stranger')
 
-  console.log(loading, error, data)
+  useEffect(() => {
+    if (userInfo !== undefined && userInfo !== null) {
+      setGreetingName(userInfo.username)
+    }
+  }, [userInfo])
+
+  if (loading) {
+    return (
+      <h1>Loading...</h1>
+    )
+  }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/auth/signup' element={<SignUpForm />}/>
-        <Route path='/auth/signin' element={<SignInForm />}/>
-      </Routes>
-    </BrowserRouter>
+    <ApolloProvider client={client}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Homepage greetingName={greetingName} />}/>
+          <Route path='/auth/signup' element={<SignUpForm />}/>
+          <Route path='/auth/signin' element={<SignInForm />}/>
+          <Route path='/userinfo' element={<UserInfo />}/>
+        </Routes>
+      </BrowserRouter>
+    </ApolloProvider>
   )
 }
 

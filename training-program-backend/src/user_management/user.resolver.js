@@ -1,91 +1,59 @@
 import models from '~/src/service_providers/sequelize/models'
 import { hashPassword, doHashesMatch } from '../utils/eval_credentials'
+import jsonwebtoken from 'jsonwebtoken'
+import getDecodedAccessToken from '../service_providers/authentication/get_decoded_access_token'
 
 export default {
   Mutation: {
-    createUser: async (obj, args, context, info) => {
+    signup: async (obj, { data }, context, info) => {
       try {
-        const user = await models.user.create(args.data)
+        const user = await models.user.create(data)
 
       return {
-        code: "USER_CREATE_SUCCESS",
-        success: true,
-        message: `The user ${user.username} was successfully created.`,
-        user: user
+        user: user,
+        jwt: null,
+        authError: null,
       }
     } catch (err) {
-      console.log(err)
-      return {
-        code: "USER_CREATE_FAIL",
-        success: false,
-        message: err.message,
-        user: null
-      }
+      new Error('USER_CREATE_FAIL')
     }
+    },
+
+    signin: async (obj, { data }, context, info) => {
+      const user = await models.user.findOne({ where: { username: data.username } })
+      const hashedUserProvidedPassword = hashPassword(data.password, user?.salt)
+      if (doHashesMatch(user?.password, hashedUserProvidedPassword)) {
+        const jwt = jsonwebtoken.sign({sub: user.id, name: user.lastName}, process.env.SECRET, {expiresIn: '10d'})
+        return {
+          user,
+          jwt,
+          authError: null
+        }
+      }
+      return (
+        new Error('INVALID_CREDENTIALS')
+      )
+      // return {
+      //   user: null,
+      //   jwt: null,
+      //   authError: 'INVALID_CREDENTIALS'
+      // }
     }
   },
 
   Query: {
-    allUsers: async (obj, args, context, info) => {
-      try {
-        const users = await models.user.findAll()
-
-      return {
-        code: "USERS_FOUND",
-        success: true,
-        message: 'Retrieved all users successfully.',
-        users: users
-      }
-
-      } catch (err) {
+    currentUser: async (obj, args, context, info) => {
+      const decodedPayload = await getDecodedAccessToken()
+      if (decodedPayload) {
+        const user = await models.user.findOne({ where: { id: decodedPayload?.sub } })
         return {
-          code: "USERS_NOT_FOUND",
-          success: false,
-          message: err.message,
-          users: []
-        }
-      }
-    },
-
-    userByCredentials: async (obj, args, context, info) => {
-      const user = await models.user.findOne({where: {email: args.email}})
-      const hashedUserProvidedPassword = hashPassword(args.password, user?.salt)
-      if (doHashesMatch(user?.password, hashedUserProvidedPassword)) {
-        return {
-          code: "USER_FOUND",
-          success: true,
-          message: `The user retrieved is ${user.username}`,
-          user: user
+          ...user.get()
         }
       }
       
-      return {
-        code: "USER_NOT_FOUND",
-        success: false,
-        message: 'Provided password or email is invalid.',
-        user: null
-      }
-    },
-
-    userById: async (obj, args, context, info) => {
-      try {
-        const user = await models.user.findOne({where: {id: args.id}})
-        if (user) {
-          return {
-            code: "USER_FOUND",
-            success: true,
-            message: `The retrieved user is ${user.username}`,
-            user: user
-          }
-        }
-      } catch (err) {
-        return {
-          code: "USER_NOT_FOUND",
-          success: false,
-          message: err.message,
-          user: null        
-        }
-      }
+      return (
+        null
+      )
     }
   }
 }

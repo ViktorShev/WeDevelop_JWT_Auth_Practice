@@ -1,6 +1,6 @@
-{
+query currentUser {
   currentUser {
+    username
     id
-    firstName
   }
 }

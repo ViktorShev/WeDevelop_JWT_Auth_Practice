@@ -29,6 +29,7 @@ services:
     - DB_PASSWORD=tp_db
     - DB_NAME=tp_db
     - DB_DIALECT=postgres
+    - SECRET=secret
 
   tp-database:
     container_name: tp-database

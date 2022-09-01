@@ -1,5 +1,15 @@
+import jsonwebtoken from 'jsonwebtoken'
+
 function decodeToken (token) {
-  throw new Error('Not implemented!')
+  try {
+    const decodedPayload = jsonwebtoken.verify(token, process.env.SECRET)
+
+    return decodedPayload
+
+  } catch (err) {
+
+    return null
+  }
 }
 
 export default decodeToken
