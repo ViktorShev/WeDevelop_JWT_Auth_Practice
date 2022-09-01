@@ -4,7 +4,6 @@ import './UserInfo.scss'
 
 export default function UserInfo () {
   const { isLoggedIn, userInfo } = useCurrentUser()
-  console.log(isLoggedIn, userInfo)
   
   if (!isLoggedIn) {
     return (

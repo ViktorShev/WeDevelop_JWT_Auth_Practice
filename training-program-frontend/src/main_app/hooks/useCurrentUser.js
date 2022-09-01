@@ -9,7 +9,7 @@ const currentUserQuery = loader('../graphql/currentUser.graphql')
 
 export function useCurrentUser() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const { loading, data } = useQuery(currentUserQuery, { client, fetchPolicy: 'network-only', nextFetchPolicy: 'network-only' })
+  const { loading, data } = useQuery(currentUserQuery, { client, fetchPolicy: 'cache-and-network', nextFetchPolicy: 'cache-and-network' })
 
   useEffect(() => {
     if (!loading && data?.currentUser?.username !== undefined) {
