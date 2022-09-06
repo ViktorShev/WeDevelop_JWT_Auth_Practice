@@ -1,6 +1,6 @@
 import { loader } from 'graphql.macro'
 import { useMutation } from '@apollo/client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import './SignUpForm.scss'
@@ -14,16 +14,10 @@ const LOGIN_USER_MUTATION = loader('../../graphql/signin.graphql')
 
 export default function SignUpForm() {
   const navigate = useNavigate()
-  const [createUser, { error }] = useMutation(CREATE_USER_MUTATION, { onError: console.log })
-  const [loginUser] = useMutation(LOGIN_USER_MUTATION, 
-    { 
-      onError: console.log, 
-      onCompleted: (data) => {
-        setAccessToken(data.signin.jwt)
-        navigate('/userinfo')
-      }
-    })
-    
+  const [createUser, { error }] = useMutation(CREATE_USER_MUTATION)
+  const [loginUser] = useMutation(LOGIN_USER_MUTATION, { onError: console.log, onCompleted: (data) => {setAccessToken(data.signin.jwt); navigate('/userinfo')} })
+  const [wasUserCreated, setWasUserCreated] = useState(false)
+  
   const [formState, setFormState] = useState({
     firstName: undefined,
     lastName: undefined,
@@ -31,17 +25,29 @@ export default function SignUpForm() {
     username: undefined,
     password: undefined
   })
-
+  
   const showError = classNames('errorMessage', {'--show': error})
   const setAttr = (attr, e) => setFormState({ ...formState, [attr]: e.target.value })
+
+  useEffect(() => {
+    if (wasUserCreated === true) {
+      loginUser({ variables: { SigninInput: { username: formState.username, password: formState.password } } })
+    }
+  }, [wasUserCreated, formState, loginUser])
 
   return (
     <>
       <form className='signUpForm' onSubmit={async (e) => {
         e.preventDefault();
-        await createUser({ variables: { SignupInput: formState } })
-        await loginUser({ variables: { SigninInput: { username: formState.username, password: formState.password }} })
-        e.target.reset()
+        try {
+          await createUser({ variables: { SignupInput: formState } })
+          setWasUserCreated(true)
+        } catch (err) {
+          console.error(err)
+          setWasUserCreated(false)
+        } finally {
+          e.target.reset()
+        }
       }}>
         <h2>Member registration</h2>
         <span className={showError}>Oh snap! Something went wrong. <img alt='x' src={error_cross}/></span>

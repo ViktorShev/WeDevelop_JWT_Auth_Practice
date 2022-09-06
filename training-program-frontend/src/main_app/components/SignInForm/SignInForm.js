@@ -13,14 +13,7 @@ const LOGIN_USER_MUTATION = loader('../../graphql/signin.graphql')
 
 export default function SignInForm() {
   const navigate = useNavigate()
-  const [loginUser, { error }] = useMutation(LOGIN_USER_MUTATION, 
-    { 
-      onError: console.log, 
-      onCompleted: (data) => {
-        setAccessToken(data.signin.jwt)
-        navigate('/userinfo')
-      } 
-    })
+  const [loginUser, { error }] = useMutation(LOGIN_USER_MUTATION, { onCompleted: (data) => {setAccessToken(data.signin.jwt); navigate('/userinfo')} })
 
   const [formState, setFormState] = useState({
     username: undefined,
@@ -32,10 +25,15 @@ export default function SignInForm() {
 
   return (
     <>
-      <form className='signInForm' onSubmit={(e) => {
+      <form className='signInForm' onSubmit={async (e) => {
         e.preventDefault();
-        loginUser({ variables: { SigninInput: formState } })
-        e.target.reset()
+        try {
+          await loginUser({ variables: { SigninInput: formState } })
+        } catch (err) {
+          console.error(err)
+        } finally {
+          e.target.reset()
+        }
       }}>
         <h2>Member login</h2>
         <span className={showError}>Oh snap! Something went wrong.<img alt='x' src={error_cross}/></span>
